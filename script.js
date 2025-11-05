@@ -3,13 +3,7 @@ console.log("Script")
 // Add a task
 
 function addTask() {
-    /* 
-    <div id="task1" class="task-item">
-        <input type="checkbox" id="checkbox1">
-        <label id ="label1"> Take out trash</label>
-    </div>
-    */
-
+    
     // Get Task text 
     let textBox = document.getElementById("task-input")
     let taskText = textBox.value;
@@ -33,6 +27,7 @@ function addTask() {
     let checkbox = document.createElement("input")
     checkbox.type = "checkbox";
     checkbox.id = "checkbox" + idNum;
+    checkbox.addEventListener("change", removeTask);
 
     // Create label
     let label = document.createElement
@@ -52,4 +47,33 @@ function addTask() {
     taskList.appendChild(taskDiv);
 
 
+}
+
+
+function removeTask(event) {
+    // Get the id of div to remove
+    let checkboxId = event.target.id;
+    let idNum = checkboxId.substring(8);
+    let taskDiv = document.getElementById("task" + idNum);
+    taskDiv.classList.add("remove")
+
+    //Get the task-list container
+    let taskList = document.getElementById("task-list")
+
+    // Remove task div from task list
+    //taskList.removeChild(taskDiv)
+    setTimeout(function() {
+        taskList.removeChild(taskDiv)
+        fixTaskColor();
+    }, 1000);
+}
+
+function fixTaskColor() {
+    let taskList = document.getElementById("task-list")
+    for ( let i = 0; i < taskList.childElementCount; i++) {
+        taskList.children[i].style.backgroundColor = "blue"
+        if (i % 2 == 1) {
+            taskList.children[i].style.backgroundColor = "darkturquoise"
+        }
+    }
 }
