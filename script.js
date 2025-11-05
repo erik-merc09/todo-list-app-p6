@@ -9,46 +9,9 @@ function addTask() {
     let taskText = textBox.value;
     textBox.value = ""
 
-    // get task list
-    let taskList = document.getElementById("task-list")
-
-    // generate id number
-    let idNum = taskList.childElementCount;
-
-    // Create task div
-    let taskDiv = document.createElement("div")
-    taskDiv.id = "task" + idNum;
-    taskDiv.classList.add("task-item")
-    if (idNum % 2 == 1 ) {
-        taskDiv.style.backgroundColor = "darkturquoise"
-    }
-
-    // Create checkbox
-    let checkbox = document.createElement("input")
-    checkbox.type = "checkbox";
-    checkbox.id = "checkbox" + idNum;
-    checkbox.addEventListener("change", removeTask);
-
-    // Create label
-    let label = document.createElement
-    ("label")
-    label.id = "label" + idNum;
-
-    // Set label text
-    label.innerText = taskText;
-
-    // Add checkbox to task div
-    taskDiv.appendChild(checkbox);
-
-    // Add the label to task div
-    taskDiv.appendChild(label);
-
-    // Add task div to the list
-    taskList.appendChild(taskDiv);
-
+    createTask(taskText)
 
 }
-
 
 function removeTask(event) {
     // Get the id of div to remove
@@ -77,3 +40,59 @@ function fixTaskColor() {
         }
     }
 }
+
+function createTask(taskText) {
+    // get task list
+    let taskList = document.getElementById("task-list")
+
+    // generate id number
+    let idNum = taskList.childElementCount;
+
+    // Create task div
+    let taskDiv = document.createElement("div")
+    taskDiv.id = "task" + idNum;
+    taskDiv.classList.add("task-item")
+    if (idNum % 2 == 1 ) {
+        taskDiv.style.backgroundColor = "darkturquoise"
+    }
+
+    // Create checkbox
+    let checkbox = document.createElement("input")
+    checkbox.type = "checkbox";
+    checkbox.id = "checkbox" + idNum;
+    checkbox.addEventListener("change", removeTask);
+
+    // Create label
+    let label = document.createElement
+    ("label")
+    label.id = "label" + idNum;
+
+    // Set label text
+    label.innerText = taskText;
+
+    // dave task to local storage 
+    localStorage.setItem(taskDiv.id, taskText);
+    console.log(localStorage.length);
+
+    // Add checkbox to task div
+    taskDiv.appendChild(checkbox);
+
+    // Add the label to task div
+    taskDiv.appendChild(label);
+
+    // Add task div to the list
+    taskList.appendChild(taskDiv);
+}
+
+function loadTasks() {
+    console.log(localStorage.length)
+    for (let i = 0; i< localStorage.length; i ++) {
+        let key = localStorage.key(i)
+        console.log(key)
+        let taskText = localStorage.getItem(key);
+        console.log(taskText);
+        createTask(taskText);
+    }
+}
+loadTasks();
+
